@@ -1,0 +1,409 @@
+{
+  "name": "walls-outdoor-palette",
+  "description": "Grayscale boilerplate of the outdoor `walls` autotile \u2014 the same 4x4 pieces, layout, gids and colliders, redrawn in the indoor boilerplate's flat palette, plus a ground row (gids 4197-4200) so a sample map can be drawn from this sheet alone.\n\nFOUR COLOURS CARRY EVERYTHING. Dark #3A3A50 is outline. White #F8F8F8 is a wall's TOP, its cap, with a #E8E7ED lip on its last row. Sage #9CA99E is a wall's SOUTH-FACING SIDE, with its first row #8C9594 in the cap's shadow. Grey is ground: speckled outside a compound, paved inside.\n\nWall autotile \u2014 a nine-slice ring (rows 0-2) PLUS four step pieces (row 3) for turns the nine-slice cannot express.\n\nThe art is handed, and mixing handedness is what breaks a wall: every left-handed piece draws its cream stroke at x9-11 and every right-handed one at x5-7, 4px apart. A rectangle only ever needs one handedness per side, so nine pieces suffice; a stepped ring turns twice per step and needs a matching-handed piece for BOTH turns, which is what row 3 supplies.\n\nColliders follow the art, and the whole sheet is built from exactly TWO boxes. A horizontal band blocks a 6px strip at its base (y10-16) \u2014 which is also what makes it draw behind an entity standing above it. A vertical rail blocks the 5px column it is drawn on (x8-12 left-handed, x4-8 right-handed), full height, because a rail is crossed sideways and a short box would leave a hole between rows. Every corner and step piece is one or both of those, clipped to the columns its own art covers; nothing is full-cell.\n\nSo a band's 6px base is the ONE height in this sheet, north and south alike (walls-1-0 and walls-1-2 are pixel-identical), and it carries unbroken through every corner and step. A piece needs the rail box too only when its arm turns NORTH \u2014 the four pieces where it turns south sit above a vertical run that already seals that column, so they are a base strip and nothing more.",
+  "image": "16x16-outdoor-walls-grayscale.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "size": {
+    "x": 4,
+    "y": 5
+  },
+  "firstgid": 4181,
+  "objects": {
+    "walls": {
+      "description": "4x4 wall autotile: nine-slice ring plus four step pieces.",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 4,
+        "y": 5
+      },
+      "tiles": {
+        "walls-0-0": {
+          "name": "top_left_wall_corner",
+          "description": "North-west corner. Its cream arm sits at x9-11, the same column every other left-handed piece uses, so a run above or below meets it exactly. Collider is the north run's 6px base strip, restricted to the half the art occupies (art starts at x8, y4) \u2014 the same box the run east of it uses, so the walk-behind strip carries straight through the corner instead of stopping a whole tile early. The arm turns SOUTH from here, and the west run below already blocks its column full height, so the 10px above the strip needs no collider: it only ever touches the outside.",
+          "gid": 4181,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 8,
+            "y": 10,
+            "width": 8,
+            "height": 6
+          }
+        },
+        "walls-1-0": {
+          "name": "top_middle_wall_edge",
+          "description": "North wall run, repeat horizontally. The 6px collider at its base is also its depth baseline: an entity standing in the 10px above it is drawn behind the wall, one standing south of it in front. Both sides matter here \u2014 unlike a building, a wall encloses walkable floor (walls-1-1 is non-solid), so this tile is approachable from inside and out.",
+          "gid": 4182,
+          "position": {
+            "x": 16,
+            "y": 0
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 16,
+            "height": 6
+          }
+        },
+        "walls-2-0": {
+          "name": "top_right_wall_corner",
+          "description": "North-east corner. Right-handed: cream arm at x5-7. Mirror of the north-west corner, and its collider follows the same rule \u2014 the north run's 6px base strip over the half the art occupies.",
+          "gid": 4183,
+          "position": {
+            "x": 32,
+            "y": 0
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 8,
+            "height": 6
+          }
+        },
+        "walls-3-0": {
+          "name": "band_end_west",
+          "description": "End cap for a horizontal run. A band is drawn to CONTINUE, so its vertical edges carry no outline; a decorative run inside a room has to stop somewhere, and without a cap its two end cells leave raw fill against the world. Closes the WEST edge \u2014 use as the first cell of a run.",
+          "gid": 4184,
+          "position": {
+            "x": 48,
+            "y": 0
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 16,
+            "height": 6
+          }
+        },
+        "walls-0-1": {
+          "name": "middle_left_wall_edge",
+          "description": "West wall run, repeat vertically. Cream arm at x9-11, so the rail is x8-12 and the collider is exactly those 5 columns \u2014 the same box every left-handed arm in this sheet uses. It stays full height because a rail is crossed sideways: a short box would leave a hole between every pair of rows. The 3px east of it is inside the compound and the 8px west of it is outside, which is what makes a one-course wall read one tile thick without the collider claiming half a cell.",
+          "gid": 4185,
+          "position": {
+            "x": 0,
+            "y": 16
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 8,
+            "y": 0,
+            "width": 5,
+            "height": 16
+          }
+        },
+        "walls-1-1": {
+          "name": "wall_interior",
+          "description": "Empty interior cell. Nothing drawn or blocked \u2014 fill the enclosed area with a ground tile.",
+          "gid": 4186,
+          "position": {
+            "x": 16,
+            "y": 16
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        },
+        "walls-2-1": {
+          "name": "middle_right_wall_edge",
+          "description": "East wall run, repeat vertically. Cream arm at x5-7, so the rail is x4-8 and the collider is exactly those 5 columns \u2014 mirror of the west run, and the same box every right-handed arm in this sheet uses. Full height for the same reason.",
+          "gid": 4187,
+          "position": {
+            "x": 32,
+            "y": 16
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 4,
+            "y": 0,
+            "width": 5,
+            "height": 16
+          }
+        },
+        "walls-3-1": {
+          "name": "band_end_east",
+          "description": "End cap for a horizontal run. A band is drawn to CONTINUE, so its vertical edges carry no outline; a decorative run inside a room has to stop somewhere, and without a cap its two end cells leave raw fill against the world. Closes the EAST edge \u2014 use as the last cell of a run.",
+          "gid": 4188,
+          "position": {
+            "x": 48,
+            "y": 16
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 16,
+            "height": 6
+          }
+        },
+        "walls-0-2": {
+          "name": "bottom_left_wall_corner",
+          "description": "South-west corner. Two boxes, for the same reason step_west_to_north needs two: the arm turns NORTH into the west run, so its 5px rail column (x8-12, exactly where the art is) blocks top to bottom, while the band it caps only blocks its 6px base strip. One box would be their bounding box \u2014 the full cell \u2014 which is what used to make this corner 10px taller than the run beside it and cap the compound's inner walk-behind strip a tile early. The arm is what seals that strip from the outside.",
+          "gid": 4189,
+          "position": {
+            "x": 0,
+            "y": 32
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": [
+            {
+              "x": 8,
+              "y": 10,
+              "width": 8,
+              "height": 6
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "width": 5,
+              "height": 16
+            }
+          ]
+        },
+        "walls-1-2": {
+          "name": "bottom_middle_wall_edge",
+          "description": "South wall run, repeat horizontally. Pixel-identical to the north run \u2014 same outline at y4, same cream stroke at y5-7, same base outline at y15 \u2014 so it takes the same 6px base strip and is walk-behind on the same terms. A wall encloses walkable floor, so the 10px above this band is the INSIDE of the compound: an entity standing there is further from the camera than the band and is correctly drawn behind it.",
+          "gid": 4190,
+          "position": {
+            "x": 16,
+            "y": 32
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 16,
+            "height": 6
+          }
+        },
+        "walls-2-2": {
+          "name": "bottom_right_wall_corner",
+          "description": "South-east corner. Mirror of the south-west corner: band base strip plus the right-handed rail column (x4-8) at full height, since the arm turns NORTH into the east run.",
+          "gid": 4191,
+          "position": {
+            "x": 32,
+            "y": 32
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": [
+            {
+              "x": 0,
+              "y": 10,
+              "width": 8,
+              "height": 6
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "width": 5,
+              "height": 16
+            }
+          ]
+        },
+        "walls-3-2": {
+          "name": "unused_2",
+          "description": "Unused.",
+          "gid": 4192,
+          "position": {
+            "x": 48,
+            "y": 32
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        },
+        "walls-0-3": {
+          "name": "step_west_to_south",
+          "description": "THE PIECES THE NINE-SLICE LACKS. A nine-slice has one corner per turn direction, each with its cream arm locked to one column. A stepped or curved wall turns TWICE in a row, so the second turn needs the same connection set with the arm on the OTHER column \u2014 without it the rail jumps 4px mid-wall and the run ends uncapped. Band arrives from the west and turns down, arm at x9-11 (left-handed).\n\nCollider: the band's 6px base strip, stopping at x13 where the art does. The arm turns SOUTH, so the west run in the cell below already blocks its column \u2014 one box is the whole footprint, and the 10px above it stays walk-behind like the straight run it continues.",
+          "gid": 4193,
+          "position": {
+            "x": 0,
+            "y": 48
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 0,
+            "y": 10,
+            "width": 13,
+            "height": 6
+          }
+        },
+        "walls-1-3": {
+          "name": "step_west_to_north",
+          "description": "THE PIECES THE NINE-SLICE LACKS. A nine-slice has one corner per turn direction, each with its cream arm locked to one column. A stepped or curved wall turns TWICE in a row, so the second turn needs the same connection set with the arm on the OTHER column \u2014 without it the rail jumps 4px mid-wall and the run ends uncapped. Band arrives from the west and turns up, arm at x9-11 (left-handed).\n\nCollider: TWO boxes, because this footprint is an L and the bounding box of an L is the whole cell \u2014 which is both wider than the art and full height, cancelling the walk-behind the straight runs have. The band's 6px base strip, plus the arm's 5px column at full height because the arm continues NORTH and a vertical run blocks its column top to bottom.",
+          "gid": 4194,
+          "position": {
+            "x": 16,
+            "y": 48
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": [
+            {
+              "x": 0,
+              "y": 10,
+              "width": 13,
+              "height": 6
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "width": 5,
+              "height": 16
+            }
+          ]
+        },
+        "walls-2-3": {
+          "name": "step_east_to_south",
+          "description": "THE PIECES THE NINE-SLICE LACKS. A nine-slice has one corner per turn direction, each with its cream arm locked to one column. A stepped or curved wall turns TWICE in a row, so the second turn needs the same connection set with the arm on the OTHER column \u2014 without it the rail jumps 4px mid-wall and the run ends uncapped. Band arrives from the east and turns down, arm at x5-7 (right-handed).\n\nCollider: mirror of step_west_to_south \u2014 the band's 6px base strip from x4, where the art starts. The arm turns SOUTH into an east run that already blocks its column.",
+          "gid": 4195,
+          "position": {
+            "x": 32,
+            "y": 48
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": {
+            "x": 4,
+            "y": 10,
+            "width": 12,
+            "height": 6
+          }
+        },
+        "walls-3-3": {
+          "name": "step_east_to_north",
+          "description": "THE PIECES THE NINE-SLICE LACKS. A nine-slice has one corner per turn direction, each with its cream arm locked to one column. A stepped or curved wall turns TWICE in a row, so the second turn needs the same connection set with the arm on the OTHER column \u2014 without it the rail jumps 4px mid-wall and the run ends uncapped. Band arrives from the east and turns up, arm at x5-7 (right-handed).\n\nCollider: mirror of step_west_to_north \u2014 two boxes, the band's base strip plus the arm's 5px column at full height, since the arm continues NORTH.",
+          "gid": 4196,
+          "position": {
+            "x": 48,
+            "y": 48
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": [
+            {
+              "x": 4,
+              "y": 10,
+              "width": 12,
+              "height": 6
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "width": 5,
+              "height": 16
+            }
+          ]
+        },
+        "walls-0-4": {
+          "name": "ground_plain",
+          "description": "Outdoor ground, flat grey with a few flecks. The fill outside a compound. Walkable.",
+          "gid": 4197,
+          "position": {
+            "x": 0,
+            "y": 64
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        },
+        "walls-1-4": {
+          "name": "ground_plain_alt",
+          "description": "Outdoor ground, same grey with its flecks moved, for breaking up a large area. Walkable.",
+          "gid": 4198,
+          "position": {
+            "x": 16,
+            "y": 64
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        },
+        "walls-2-4": {
+          "name": "yard_paving",
+          "description": "Yard paving, light grey slabs with a grout seam on its north and west edges, so it tiles into a grid. The fill inside a compound. Walkable.",
+          "gid": 4199,
+          "position": {
+            "x": 32,
+            "y": 64
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        },
+        "walls-3-4": {
+          "name": "yard_paving_worn",
+          "description": "Yard paving with one slab darker, for breaking up a large yard. Walkable.",
+          "gid": 4200,
+          "position": {
+            "x": 48,
+            "y": 64
+          },
+          "size": {
+            "x": 16,
+            "y": 16
+          },
+          "solid": false
+        }
+      }
+    }
+  }
+}

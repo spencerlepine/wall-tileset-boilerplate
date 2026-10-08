@@ -1,0 +1,1513 @@
+{
+  "name": "walls-palette-32",
+  "description": "Interior tileset for indoor rooms — a 10x10 grid of 32x32 tiles, gids 4301-4400, where gid = firstgid + (row * 10 + col) and a tile's `position` is its PIXEL offset (col * 32, row * 32). All 100 cells are declared; 50 hold art and 50 are fully transparent and marked `unused_`.\n\nFOUR COLOURS CARRY EVERYTHING. Dark #3A3A50 is outline. White #F8F8F8 is a wall's TOP surface, the part you see from above. Sage #9CA99E is a wall's SOUTH-FACING SIDE, drawn hanging below its cap and over the floor. Grey tile is FLOOR. So white-over-sage is a wall you see the front of, white alone is a wall seen only from above, and grey is where you walk.\n\nTWO SHAPES BUILD EVERY WALL. A horizontal wall is a 12px CAP BAND — outline y0-1, white y2-9, outline y10-11 — and that band is the wall's footprint in plan. A vertical wall is a 14px STRIPE — outline, 10px white, outline — and which side of its cell the stripe hugs is how this sheet carries handedness: a stripe at x18-31 has floor to its east and so is a WEST wall, a stripe at x0-13 is an EAST wall. Mixing the two in one run makes a wall jump 18px mid-length, which is the same failure `outdoor-walls.json` documents outdoors.\n\nA WALL'S HEIGHT IS DRAWN AS SEPARATE CELLS, and that is the one thing that makes this sheet different from `outdoor-walls.json` to use. Outdoors a wall's footprint and its height share a single cell, so its collider has to be the thin strip at its base — which is what makes it walk-behind, and what lets the player overlap its upper pixels. Here a north wall is a cap cell, then zero or more `face_fill` cells, then a `face_end` cell, and every one of them is wall through and through. So they block whole, none of them is walk-behind, and none needs to be: the cap always blocks before the player could reach a position north of a face.\n\nThe pieces fall into six families, named by their prefix. `wall_` is the room perimeter — runs, end caps and openings for all four sides. `face_` is the sage side hanging below a wall, in fill and terminating variants. `mass_` is a wall several cells thick in plan, with its own nine-slice edges. `pier_` is a free-standing interior wall, including the corners and T where one meets another. `floor_` is the walkable grey tile, plain plus grout-edge variants. `void_` is unlit space.\n\nNOTE: these tiles are 32x32 while maps use tileSize 16. That is deliberate and must not be 'fixed' by re-slicing the art to 16x16 — the sheet is authored at 32.",
+  "image": "32x32-indoor-walls-grayscale.png",
+  "tileWidth": 32,
+  "tileHeight": 32,
+  "size": {
+    "x": 10,
+    "y": 10
+  },
+  "firstgid": 4301,
+  "objects": {
+    "walls-palette": {
+      "description": "The whole 10x10 sheet as one object, in grid order, so every cell's gid, key and pixel offset line up arithmetically and none can be forgotten. A tile's family is carried by its `name` prefix rather than by object grouping — see the sheet description.",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 10,
+        "y": 10
+      },
+      "tiles": {
+        "walls-palette-0-0": {
+          "name": "unused_c0_r0",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4301,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-0": {
+          "name": "void_fill",
+          "description": "Flat unlit dark, the same colour every outline uses, with no shading and no edge — unlit space rather than a surface. Blocks: a void is not somewhere to walk.",
+          "gid": 4302,
+          "position": {
+            "x": 32,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-2-0": {
+          "name": "unused_c2_r0",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4303,
+          "position": {
+            "x": 64,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-0": {
+          "name": "unused_c3_r0",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4304,
+          "position": {
+            "x": 96,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-0": {
+          "name": "mass_cap_north_west",
+          "description": "North-west corner of a wall MASS — a structure several cells thick in plan. Cap band across y0-1, then the west outline runs down x0-1 from y10. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4305,
+          "position": {
+            "x": 128,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-5-0": {
+          "name": "mass_cap_north",
+          "description": "North edge of a wall mass — cap outline across y0-1, white below it, no vertical outline. Repeat horizontally. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4306,
+          "position": {
+            "x": 160,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-6-0": {
+          "name": "mass_cap_north_east",
+          "description": "North-east corner of a wall mass — mirror of mass_cap_north_west, with the east outline down x30-31. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4307,
+          "position": {
+            "x": 192,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-7-0": {
+          "name": "wall_run_north_end_east",
+          "description": "A north wall run that STOPS: cap closed at its east edge (x30-31 outlined at y2-9) with the sage side face below at y12-31. A band is drawn to continue, so a run that ends needs this or it shows raw fill. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4308,
+          "position": {
+            "x": 224,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-8-0": {
+          "name": "unused_c8_r0",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4309,
+          "position": {
+            "x": 256,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-9-0": {
+          "name": "unused_c9_r0",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4310,
+          "position": {
+            "x": 288,
+            "y": 0
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-1": {
+          "name": "wall_west_north_end",
+          "description": "North end of a WEST wall. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length. The horizontal outline at y10-11 is a course seam, so a long run does not read as one extruded block. Collider is exactly the 14 columns the stripe covers, full height: a wall is crossed sideways, and a shorter box would leave a hole between rows.",
+          "gid": 4311,
+          "position": {
+            "x": 0,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 18,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-1-1": {
+          "name": "wall_run_north",
+          "description": "The north wall run, repeat horizontally. The cap is the 12px band every horizontal wall in this sheet is built from — outline at y0-1, white top surface at y2-9, outline at y10-11. It is the wall's FOOTPRINT in plan; anything sage below it is the wall's side, drawn over the floor rather than standing on it. Here the face begins in this same cell at y12-31 and continues into the cells below — see face_fill and face_end. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4312,
+          "position": {
+            "x": 32,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-2-1": {
+          "name": "wall_east_north_end",
+          "description": "North end of an EAST wall — mirror of wall_west_north_end, stripe at x0-13, same course seam at y10-11. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length.",
+          "gid": 4313,
+          "position": {
+            "x": 64,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-3-1": {
+          "name": "unused_c3_r1",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4314,
+          "position": {
+            "x": 96,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-1": {
+          "name": "mass_west",
+          "description": "A wall mass's west edge — outline down x0-1, white east of it. Repeat vertically. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4315,
+          "position": {
+            "x": 128,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-5-1": {
+          "name": "mass_interior",
+          "description": "A wall mass's interior — white edge to edge, no outline anywhere. Fill the middle of a mass with it. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4316,
+          "position": {
+            "x": 160,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-6-1": {
+          "name": "mass_east",
+          "description": "A wall mass's east edge — outline down x30-31. Repeat vertically. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4317,
+          "position": {
+            "x": 192,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-7-1": {
+          "name": "face_end_east",
+          "description": "The bottom of a wall's sage side face, closed on its EAST edge (x30-31) and by the outline across y30-31 where it meets the floor. Pixel-identical to the cell at (6, 3). Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4318,
+          "position": {
+            "x": 224,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-8-1": {
+          "name": "unused_c8_r1",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4319,
+          "position": {
+            "x": 256,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-9-1": {
+          "name": "unused_c9_r1",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4320,
+          "position": {
+            "x": 288,
+            "y": 32
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-2": {
+          "name": "wall_west_run",
+          "description": "WEST wall run, repeat vertically — stripe at x18-31, no seam and no cap, so it tiles against itself. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length.",
+          "gid": 4321,
+          "position": {
+            "x": 0,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 18,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-1-2": {
+          "name": "face_end",
+          "description": "The bottom of a wall's sage side face — sage down to y29, then the outline at y30-31 that is the wall meeting the floor. Repeat horizontally. Pixel-identical to the cell at (5, 3). Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4322,
+          "position": {
+            "x": 32,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-2-2": {
+          "name": "wall_east_run",
+          "description": "EAST wall run, repeat vertically — stripe at x0-13. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length.",
+          "gid": 4323,
+          "position": {
+            "x": 64,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-3-2": {
+          "name": "face_fill_east",
+          "description": "Wall side face, middle course, closed on its EAST edge (outline at x30-31). Tiles vertically between a cap above and a face_end below, for a wall taller than two cells. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4324,
+          "position": {
+            "x": 96,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-4-2": {
+          "name": "mass_face_start_west",
+          "description": "A mass's south-west corner where its side face begins: west outline down x0-1, cap ending at y10-11, sage face below. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4325,
+          "position": {
+            "x": 128,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-5-2": {
+          "name": "mass_face_start",
+          "description": "A mass's south edge where its side face begins — cap at y0-9 with no vertical outline, so it continues north into mass_interior, then the face from y12. Repeat horizontally. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4326,
+          "position": {
+            "x": 160,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-6-2": {
+          "name": "mass_face_start_east",
+          "description": "Mirror of mass_face_start_west — the mass's south-east corner, east outline down x30-31. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4327,
+          "position": {
+            "x": 192,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-7-2": {
+          "name": "wall_run_north_west_end_faced",
+          "description": "Like mass_face_start_west but ALSO closed across y0-1, so its cap does not continue north — a wall exactly one cap deep, ending at its west edge, with a face below. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4328,
+          "position": {
+            "x": 224,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-8-2": {
+          "name": "unused_c8_r2",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4329,
+          "position": {
+            "x": 256,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-9-2": {
+          "name": "unused_c9_r2",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4330,
+          "position": {
+            "x": 288,
+            "y": 64
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-3": {
+          "name": "wall_west_south_end",
+          "description": "South end of a WEST wall — the stripe's last 12px (x18-31, y0-11), closed on all four sides with nothing below. Collider is that block alone, so the floor south of where the wall stops stays walkable right up to it.",
+          "gid": 4331,
+          "position": {
+            "x": 0,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 18,
+            "y": 0,
+            "width": 14,
+            "height": 12
+          }
+        },
+        "walls-palette-1-3": {
+          "name": "wall_run_south",
+          "description": "The SOUTH wall run, repeat horizontally — cap band only, with nothing below it. A south wall shows no sage face: its side would point away from the camera, into the void beyond the room. Collider is the band, which is also the whole of the art, so the player walks up to the wall from the north and stops at it.",
+          "gid": 4332,
+          "position": {
+            "x": 32,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 12
+          }
+        },
+        "walls-palette-2-3": {
+          "name": "wall_east_south_end",
+          "description": "South end of an EAST wall — mirror of wall_west_south_end, the stripe's last 12px at x0-13.",
+          "gid": 4333,
+          "position": {
+            "x": 64,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 14,
+            "height": 12
+          }
+        },
+        "walls-palette-3-3": {
+          "name": "face_fill_west",
+          "description": "Wall side face, middle course, closed on its WEST edge (outline at x0-1). Mirror of face_fill_east. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4334,
+          "position": {
+            "x": 96,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-4-3": {
+          "name": "face_end_west",
+          "description": "The bottom of a wall's side face, closed on its WEST edge (x0-1) and by the outline at y30-31. Pixel-identical to the cell at (7, 3). Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4335,
+          "position": {
+            "x": 128,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-5-3": {
+          "name": "face_end_alt",
+          "description": "Pixel-identical to face_end at (1, 2) — the face bottom, no vertical outline. Declared separately because it is the copy the mock map actually uses under the north wall. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4336,
+          "position": {
+            "x": 160,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-6-3": {
+          "name": "face_end_east_alt",
+          "description": "Pixel-identical to face_end_east at (7, 1) — the face bottom closed on its east edge. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4337,
+          "position": {
+            "x": 192,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-7-3": {
+          "name": "face_end_west_alt",
+          "description": "Pixel-identical to face_end_west at (4, 3) — the face bottom closed on its west edge. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4338,
+          "position": {
+            "x": 224,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-8-3": {
+          "name": "unused_c8_r3",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4339,
+          "position": {
+            "x": 256,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-9-3": {
+          "name": "unused_c9_r3",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4340,
+          "position": {
+            "x": 288,
+            "y": 96
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-4": {
+          "name": "unused_c0_r4",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4341,
+          "position": {
+            "x": 0,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-4": {
+          "name": "unused_c1_r4",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4342,
+          "position": {
+            "x": 32,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-4": {
+          "name": "unused_c2_r4",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4343,
+          "position": {
+            "x": 64,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-4": {
+          "name": "face_fill",
+          "description": "Wall side face, middle course, no outline on any edge — sage across the whole cell. Tiles in both axes, so it fills the middle of any face taller or wider than the pieces around it. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4344,
+          "position": {
+            "x": 96,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-4-4": {
+          "name": "floor_edge_north_east",
+          "description": "Interior floor, grey tile pattern, with sage grout along part of its north-east and a sage run across its south edge. Walkable: a floor that blocked would seal the room.",
+          "gid": 4345,
+          "position": {
+            "x": 128,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-5-4": {
+          "name": "floor_edge_north",
+          "description": "Interior floor with sage grout at its north-east corner only. Walkable.",
+          "gid": 4346,
+          "position": {
+            "x": 160,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-6-4": {
+          "name": "floor_plain_a",
+          "description": "Interior floor, grey tile pattern edge to edge with no grout seam. Walkable.",
+          "gid": 4347,
+          "position": {
+            "x": 192,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-7-4": {
+          "name": "pier_corner_west_to_south",
+          "description": "A cap band arriving from the WEST that turns south into a full-width wall: band closed at x30-31, wall below outlined down both edges. The north-east corner of a free-standing interior wall. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4348,
+          "position": {
+            "x": 224,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-8-4": {
+          "name": "pier_tee_from_band",
+          "description": "A cap band running clean through (white across all of y2-9) with a full-width wall dropping south below it — the T-piece, for where an east-west run continues PAST a north-south wall instead of turning at it. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4349,
+          "position": {
+            "x": 256,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-9-4": {
+          "name": "pier_corner_east_to_south",
+          "description": "Mirror of pier_corner_west_to_south — the band arrives from the EAST and turns south. The north-west corner of a free-standing interior wall. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4350,
+          "position": {
+            "x": 288,
+            "y": 128
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-0-5": {
+          "name": "unused_c0_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4351,
+          "position": {
+            "x": 0,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-5": {
+          "name": "unused_c1_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4352,
+          "position": {
+            "x": 32,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-5": {
+          "name": "unused_c2_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4353,
+          "position": {
+            "x": 64,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-5": {
+          "name": "unused_c3_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4354,
+          "position": {
+            "x": 96,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-5": {
+          "name": "floor_edge_south",
+          "description": "Interior floor with a sage grout run across the west half of its south edge. Walkable.",
+          "gid": 4355,
+          "position": {
+            "x": 128,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-5-5": {
+          "name": "floor_plain_b",
+          "description": "Interior floor, grey tile pattern edge to edge — the plain fill tile, and the one to reach for when filling a room. Walkable: a floor that blocked would seal the room.",
+          "gid": 4356,
+          "position": {
+            "x": 160,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-6-5": {
+          "name": "floor_edge_south_east",
+          "description": "Interior floor with sage grout down its east edge and across its south edge. Walkable.",
+          "gid": 4357,
+          "position": {
+            "x": 192,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-7-5": {
+          "name": "unused_c7_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4358,
+          "position": {
+            "x": 224,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-8-5": {
+          "name": "pier_north_cap",
+          "description": "North cap of a free-standing interior wall — outline across y0-1 and down both edges, open at the bottom so it continues south. Pixel-identical to the cell at (6, 6). Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4359,
+          "position": {
+            "x": 256,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-9-5": {
+          "name": "unused_c9_r5",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4360,
+          "position": {
+            "x": 288,
+            "y": 160
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-6": {
+          "name": "unused_c0_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4361,
+          "position": {
+            "x": 0,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-6": {
+          "name": "unused_c1_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4362,
+          "position": {
+            "x": 32,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-6": {
+          "name": "unused_c2_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4363,
+          "position": {
+            "x": 64,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-6": {
+          "name": "unused_c3_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4364,
+          "position": {
+            "x": 96,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-6": {
+          "name": "wall_west_run_alt",
+          "description": "WEST wall run — same 14px stripe at x18-31 as wall_west_run, with slightly different shading. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length.",
+          "gid": 4365,
+          "position": {
+            "x": 128,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 18,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-5-6": {
+          "name": "wall_east_run_alt",
+          "description": "EAST wall run — same 14px stripe at x0-13 as wall_east_run, with slightly different shading. A vertical wall is a 14px stripe — outline, 10px of white top surface, outline — and which side of its cell the stripe hugs is how this sheet carries handedness. A stripe at x18-31 sits against floor to its EAST, so it is a WEST wall; a stripe at x0-13 is an EAST wall. Mixing the two in one run is what makes a wall jump 18px mid-length.",
+          "gid": 4366,
+          "position": {
+            "x": 160,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 14,
+            "height": 32
+          }
+        },
+        "walls-palette-6-6": {
+          "name": "pier_north_cap_alt",
+          "description": "Pixel-identical to pier_north_cap at (8, 5). Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4367,
+          "position": {
+            "x": 192,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-7-6": {
+          "name": "unused_c7_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4368,
+          "position": {
+            "x": 224,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-8-6": {
+          "name": "pier_run",
+          "description": "A free-standing interior wall's vertical run, repeat vertically — outline down x0-1 and x30-31, white between, no horizontal outline so it tiles against itself. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4369,
+          "position": {
+            "x": 256,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-9-6": {
+          "name": "unused_c9_r6",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4370,
+          "position": {
+            "x": 288,
+            "y": 192
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-7": {
+          "name": "unused_c0_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4371,
+          "position": {
+            "x": 0,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-7": {
+          "name": "unused_c1_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4372,
+          "position": {
+            "x": 32,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-7": {
+          "name": "unused_c2_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4373,
+          "position": {
+            "x": 64,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-7": {
+          "name": "unused_c3_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4374,
+          "position": {
+            "x": 96,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-7": {
+          "name": "wall_run_south_end_east",
+          "description": "A south wall run that STOPS at its EAST edge (outline at x30-31, y2-9), with nothing below. Use as the last cell before an opening in the south wall.",
+          "gid": 4375,
+          "position": {
+            "x": 128,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 12
+          }
+        },
+        "walls-palette-5-7": {
+          "name": "wall_run_south_end_west",
+          "description": "Mirror of wall_run_south_end_east — a south wall run closed at its WEST edge. Use as the first cell after an opening.",
+          "gid": 4376,
+          "position": {
+            "x": 160,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 12
+          }
+        },
+        "walls-palette-6-7": {
+          "name": "wall_run_south_tee",
+          "description": "A south wall run whose TOP row is white between the two edge outlines rather than solid outline, so a free-standing wall coming down from the north merges into it instead of butting against a line. The T where an interior wall meets the south wall.",
+          "gid": 4377,
+          "position": {
+            "x": 192,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 12
+          }
+        },
+        "walls-palette-7-7": {
+          "name": "unused_c7_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4378,
+          "position": {
+            "x": 224,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-8-7": {
+          "name": "pier_face_start",
+          "description": "Where a free-standing wall running south TURNS to show its side: cap ends at the outline across y10-11, sage face from y12. This is how a wall terminates in open floor rather than against another wall. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4379,
+          "position": {
+            "x": 256,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-9-7": {
+          "name": "unused_c9_r7",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4380,
+          "position": {
+            "x": 288,
+            "y": 224
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-8": {
+          "name": "unused_c0_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4381,
+          "position": {
+            "x": 0,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-8": {
+          "name": "unused_c1_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4382,
+          "position": {
+            "x": 32,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-8": {
+          "name": "unused_c2_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4383,
+          "position": {
+            "x": 64,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-8": {
+          "name": "unused_c3_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4384,
+          "position": {
+            "x": 96,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-8": {
+          "name": "wall_south_opening_jamb_west",
+          "description": "The south wall turning south to form the WEST side of an opening — cap band closed at its east edge, then a 14px stripe running south at x18-31. TWO collider boxes, not one: this footprint is an L, and the bounding box of an L would block the 18px of floor the art leaves open inside the opening. The band plus the stripe IS the shape.",
+          "gid": 4385,
+          "position": {
+            "x": 128,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 32,
+              "height": 12
+            },
+            {
+              "x": 18,
+              "y": 12,
+              "width": 14,
+              "height": 20
+            }
+          ]
+        },
+        "walls-palette-5-8": {
+          "name": "wall_south_opening_jamb_east",
+          "description": "Mirror of wall_south_opening_jamb_west — the EAST side of an opening in the south wall, stripe at x0-13. Two boxes, for the same reason.",
+          "gid": 4386,
+          "position": {
+            "x": 160,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 32,
+              "height": 12
+            },
+            {
+              "x": 0,
+              "y": 12,
+              "width": 14,
+              "height": 20
+            }
+          ]
+        },
+        "walls-palette-6-8": {
+          "name": "unused_c6_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4387,
+          "position": {
+            "x": 192,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-7-8": {
+          "name": "unused_c7_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4388,
+          "position": {
+            "x": 224,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-8-8": {
+          "name": "pier_face_end",
+          "description": "That face closing — sage to y29, then the outline at y30-31 where the wall meets the floor. The last cell of a free-standing wall. Solid as a whole cell because the art covers the whole cell, and because nothing in this sheet ever lets the player stand north of a wall's side face — the cap above it always blocks first. That is why no tile here needs the base-strip walk-behind trick `outdoor-walls.json` relies on outdoors: there, a wall's height and footprint share one cell, so the player must be able to overlap its upper pixels. Here a wall's height is drawn as SEPARATE cells, so each one is wall through and through.",
+          "gid": 4389,
+          "position": {
+            "x": 256,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": true
+        },
+        "walls-palette-9-8": {
+          "name": "unused_c9_r8",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4390,
+          "position": {
+            "x": 288,
+            "y": 256
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-0-9": {
+          "name": "unused_c0_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4391,
+          "position": {
+            "x": 0,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-1-9": {
+          "name": "unused_c1_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4392,
+          "position": {
+            "x": 32,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-2-9": {
+          "name": "unused_c2_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4393,
+          "position": {
+            "x": 64,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-3-9": {
+          "name": "unused_c3_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4394,
+          "position": {
+            "x": 96,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-4-9": {
+          "name": "unused_c4_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4395,
+          "position": {
+            "x": 128,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-5-9": {
+          "name": "unused_c5_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4396,
+          "position": {
+            "x": 160,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-6-9": {
+          "name": "unused_c6_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4397,
+          "position": {
+            "x": 192,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-7-9": {
+          "name": "unused_c7_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4398,
+          "position": {
+            "x": 224,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-8-9": {
+          "name": "unused_c8_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4399,
+          "position": {
+            "x": 256,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        },
+        "walls-palette-9-9": {
+          "name": "unused_c9_r9",
+          "description": "Unused — all 1024 pixels transparent. Declared so the grid is complete and this gid is spoken for. If art is painted here, rename it, describe how it connects, and set `solid` to follow that art.",
+          "gid": 4400,
+          "position": {
+            "x": 288,
+            "y": 288
+          },
+          "size": {
+            "x": 32,
+            "y": 32
+          },
+          "solid": false
+        }
+      }
+    }
+  }
+}
